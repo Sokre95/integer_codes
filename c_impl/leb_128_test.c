@@ -1,16 +1,9 @@
 #include <stdio.h>
-#include <assert.h>
 
-#include "leb128.h"
+#include "lib/utils.h"
+#include "lib/leb128.h"
 
 #define DATA_SIZE 8
-
-void ensure_equal(uint32_t *data, uint32_t *decoded, const uint32_t size){
-  int i;
-  for (int i = 0; i < size; ++i){
-    assert (data[i] == decoded[i]);
-  }
-}
 
 int main(int argc, char const *argv[])
 {
@@ -20,7 +13,7 @@ int main(int argc, char const *argv[])
   int i;
 
   uint32_t encoded_size = uleb128_encode(data, DATA_SIZE, encoded);
-  printf("Encoded: ");
+  printf("Encoded bytes: ");
   for (i = 0; i < encoded_size; i++){
     printf("%d ", encoded[i]);
   }
@@ -30,7 +23,7 @@ int main(int argc, char const *argv[])
   for(i = 0; i < DATA_SIZE; i++){
     printf("%d ", *(decoded + i));
   }
-  // Make sure decoded and input date are equal
+  // Make sure decoded and input data are equal
   ensure_equal(data, decoded, DATA_SIZE);
 
   float compression = (float) ( DATA_SIZE * sizeof(uint32_t) ) / encoded_size;

@@ -1,11 +1,11 @@
 #include "leb128.h"
 
-uint8_t uleb128_encode(uint32_t *data, uint32_t size, uint8_t *encoded){
+uint32_t uleb128_encode(uint32_t *data, uint32_t size, uint8_t *encoded){
   uint32_t num;
   uint8_t byte;
   uint32_t i;
   
-  uint8_t bytes_count = 0;
+  uint32_t bytes_count = 0;
 
   for (i = 0; i < size; i++){
     num = *(data + i);
@@ -23,11 +23,13 @@ uint8_t uleb128_encode(uint32_t *data, uint32_t size, uint8_t *encoded){
   return bytes_count;
 }
 
-void uleb128_decode(uint8_t *data, uint32_t bytes_count, uint32_t *decoded){
+uint32_t uleb128_decode(uint8_t *data, uint32_t bytes_count, uint32_t *decoded){
   uint32_t num = 0;
   uint8_t byte;
   uint32_t i; 
   uint8_t shift = 0;
+  uint32_t size = 0;
+
   for(i = 0; i < bytes_count; i++){
     byte = *(data + i);
     
@@ -36,8 +38,11 @@ void uleb128_decode(uint8_t *data, uint32_t bytes_count, uint32_t *decoded){
 
     if(byte < 0x80){
       *decoded++ = num;
+      size++;
       num = 0;
       shift = 0;
     }
   }
+
+  return size;
 }
