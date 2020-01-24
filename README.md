@@ -10,7 +10,7 @@ Basic explainantions and examples about this algorithms can be found on wikipedi
 
 ___
 ### Build project
-1. `cd c_impl` or `cd cpp_imp`
+1. `cd c_impl`
 2. `make`
 
 ### Run test examples
